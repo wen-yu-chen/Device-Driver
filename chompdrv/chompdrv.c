@@ -126,9 +126,8 @@ int main() {
 
 	while(1) {
 		//disconnect from chompapp
-		if (libusb_bulk_transfer(dev_handle, (1 | LIBUSB_ENDPOINT_IN), data, 1, &actual, 0) < 0) {
+		if (libusb_bulk_transfer(dev_handle, (1 | LIBUSB_ENDPOINT_IN), data, 1, &actual, 0) < 0)
 			break;
-		}
 
 		usb_data = handleBits(data, 8);
 
