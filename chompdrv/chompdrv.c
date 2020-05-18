@@ -58,7 +58,9 @@ int main() {
 	libusb_context *ctx = NULL;// a libusb session
 	int r;// for return values
 	ssize_t cnt;// holding number of devices in list
-	r = libusb_init(&ctx);// initialize a library session
+
+	// initialize a library session
+	r = libusb_init(&ctx);
 
 	if (r < 0) {
 		printf("Init error!\n");
@@ -67,7 +69,6 @@ int main() {
 
 	// set verbosity level to 3, as suggested in the documentation
 	libusb_set_debug(ctx, 3);
-	// get the list of devices
 	cnt = libusb_get_device_list(ctx, &devs);
 
 	if (cnt < 0) {
@@ -81,18 +82,18 @@ int main() {
 	if (dev_handle == NULL)
 	    printf("Cannot open device\n");
 
-	//free the list, unref the devices in it
     libusb_free_device_list(devs, 1);
 
-	//find out if kernel driver is attached
-	if(libusb_kernel_driver_active(dev_handle, 0) == 1) {
+	// find out if kernel driver is attached
+	if (libusb_kernel_driver_active(dev_handle, 0) == 1) {
         	printf("Kernel Driver Active\n");
 
-        if(libusb_detach_kernel_driver(dev_handle, 0) == 0)
+        if (libusb_detach_kernel_driver(dev_handle, 0) == 0)
          	printf("Kernel Driver Detached!\n");
     }
 
-    r = libusb_claim_interface(dev_handle, 0);//claim interface 0 (the first) of device
+	// claim interface 0 (the first) of device
+    r = libusb_claim_interface(dev_handle, 0);
 
 	if(r < 0) {
 		printf("Cannot Claim Interface\n");
@@ -147,7 +148,7 @@ int main() {
 	ioctl(fd, UI_DEV_DESTROY);
 	close(fd);
 
-	r = libusb_release_interface(dev_handle, 0);// release the claimed interface
+	r = libusb_release_interface(dev_handle, 0);
 
 	if (r != 0)
         printf("Program ended.\n");
